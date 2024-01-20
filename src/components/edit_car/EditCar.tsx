@@ -76,7 +76,7 @@ const EditCarComponent: NextPage<CarDetailsPageProps> = ({ car }) => {
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await axiosInstance.post('http://localhost:3001/cars', formData, {
+    await axiosInstance.put(`http://localhost:3001/cars/${car.id}`, formData, {
       headers: {
         'Content-Type': 'application/json',
       },
