@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import './CarDetailsComponent.css'
+import { BACK_END_API_URL } from '@/config';
 interface CarDetailsPageProps {
   car: Car; // Assuming you have a Car type defined
 }
@@ -24,7 +25,7 @@ const CarDetailsComponent: NextPage<CarDetailsPageProps> = ({ car }) => {
     }
     if (deleteClicked) {
       // Add your delete logic here
-      axiosInstance.delete('http://localhost:3001/cars/' + car.id).then(res => {
+      axiosInstance.delete(`${BACK_END_API_URL}/cars/` + car.id).then(res => {
         router.push('/');
       })
       setDeleteClicked(false);

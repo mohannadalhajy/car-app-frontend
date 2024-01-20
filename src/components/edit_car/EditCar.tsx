@@ -4,6 +4,7 @@ import { Box, TextField, Checkbox, Button, FormControlLabel, TextareaAutosize, I
 import axiosInstance from '@/utils/axios';
 import { useRouter } from 'next/navigation';
 import { NextPage } from 'next';
+import { BACK_END_API_URL } from '@/config';
 interface CarDetailsPageProps {
   car: CarRecord; // Assuming you have a Car type defined
 }
@@ -49,7 +50,7 @@ const EditCarComponent: NextPage<CarDetailsPageProps> = ({ car }) => {
       formData.append('image', file);
 
 
-      await axiosInstance.post(`http://localhost:3001/cars/${car.id}/images`, formData, {
+      await axiosInstance.post(`${BACK_END_API_URL}/cars/${car.id}/images`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -63,7 +64,7 @@ const EditCarComponent: NextPage<CarDetailsPageProps> = ({ car }) => {
       if (mainImage === null) return;
       const formData = new FormData();
       formData.append('image', file);
-      await axiosInstance.post(`http://localhost:3001/cars/${car.id}/main_image`, formData, {
+      await axiosInstance.post(`${BACK_END_API_URL}/cars/${car.id}/main_image`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -76,7 +77,7 @@ const EditCarComponent: NextPage<CarDetailsPageProps> = ({ car }) => {
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await axiosInstance.put(`http://localhost:3001/cars/${car.id}`, formData, {
+    await axiosInstance.put(`${BACK_END_API_URL}/cars/${car.id}`, formData, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -85,7 +86,7 @@ const EditCarComponent: NextPage<CarDetailsPageProps> = ({ car }) => {
     });
   };
   const handleDeleteImage = async (index: any) => {
-    await axiosInstance.delete(`http://localhost:3001/cars/${car.id}/images/${images[index].id}`).then(res => setImages(res.data.data));
+    await axiosInstance.delete(`${BACK_END_API_URL}/cars/${car.id}/images/${images[index].id}`).then(res => setImages(res.data.data));
   };
   return (!formData || !images.length || !mainImage ? "" :
     <Box component="main" sx={{ background: '#fff', color: '#000', overflow: 'hidden', padding: '40px' }}>
@@ -331,7 +332,7 @@ const EditCarComponent: NextPage<CarDetailsPageProps> = ({ car }) => {
 
         {mainImage && <div>
           <p style={{ marginTop: '20px', marginBottom: '20px' }}>The selected main image</p>
-          <img src={`http://localhost:3001/public/${mainImage}`} alt={"Main image"} style={{ maxWidth: '40%', margin: '10px' }} />
+          <img src={`${BACK_END_API_URL}/public/${mainImage}`} alt={"Main image"} style={{ maxWidth: '40%', margin: '10px' }} />
         </div>}
         <Button type="submit" variant="contained" color="primary">
           Submit
@@ -351,7 +352,7 @@ const EditCarComponent: NextPage<CarDetailsPageProps> = ({ car }) => {
           {images.map((image, index) => (
             <Grid item key={index} style={{ position: 'relative', maxWidth: '20%', margin: '10px' }}>
               <img
-                src={`http://localhost:3001/public/${image.link}`}
+                src={`${BACK_END_API_URL}/public/${image.link}`}
                 alt={`Image ${index + 1}`}
                 style={{ width: '100%', height: 'auto', borderRadius: '8px' }}
               />

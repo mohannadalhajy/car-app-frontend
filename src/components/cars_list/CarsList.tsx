@@ -8,6 +8,7 @@ import axiosInstance from '@/utils/axios';
 import { addCar, deleteCar, initializeCars } from '@/utils/redux/features/cars/carsSlice';
 import CarCard from './CarCard';
 import Link from 'next/link';
+import { BACK_END_API_URL } from '@/config';
 
 interface RootState {
   cars: {
@@ -17,14 +18,13 @@ interface RootState {
 }
 
 const CarsList = () => {
-  // Using useSelector to access the counter state
   const dispatch = useDispatch();
   const cars = useSelector((state: RootState) => state.cars.cars);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get('http://localhost:3001/cars');
+        const response = await axiosInstance.get(`${BACK_END_API_URL}/cars`);
         dispatch(initializeCars(response.data));
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -99,7 +99,7 @@ const CarsWithStore: React.FC<CarsListWithStoreProps> = ({ cars }) => (
 // This function gets called at build time
 export async function getStaticProps() {
   // Fetch initial data from your API or any other source
-  const response = await axiosInstance.get('http://localhost:3001/cars');
+  const response = await axiosInstance.get(`${BACK_END_API_URL}/cars`);
   const cars: Car[] = response.data;
 
   // Pass data to the page via props

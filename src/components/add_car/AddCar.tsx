@@ -4,6 +4,7 @@ import { Box, TextField, Checkbox, Button, FormControlLabel, TextareaAutosize, I
 import axiosInstance from '@/utils/axios';
 import { useRouter } from 'next/navigation';
 import { NextPage } from 'next';
+import { BACK_END_API_URL } from '@/config';
 
 
 const AddCarComponent: NextPage = () => {
@@ -63,7 +64,7 @@ const AddCarComponent: NextPage = () => {
         const formData = new FormData();
         formData.append('image', image);
 
-        const response = await axiosInstance.post('http://localhost:3001/cars/images', formData, {
+        const response = await axiosInstance.post(`${BACK_END_API_URL}/cars/images`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -86,7 +87,7 @@ const AddCarComponent: NextPage = () => {
       const formData = new FormData();
       formData.append('image', mainImage);
 
-      const response = await axiosInstance.post('http://localhost:3001/cars/images', formData, {
+      const response = await axiosInstance.post(`${BACK_END_API_URL}/cars/images`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -110,7 +111,7 @@ const AddCarComponent: NextPage = () => {
     event.preventDefault();
     const main_image = await handleImageUpload();
     const images = await handleImagesUpload();
-    await axiosInstance.post('http://localhost:3001/cars', { ...formData, images, main_image }, {
+    await axiosInstance.post(`${BACK_END_API_URL}/cars`, { ...formData, images, main_image }, {
       headers: {
         'Content-Type': 'application/json',
       },
